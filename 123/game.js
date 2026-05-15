@@ -17,9 +17,12 @@ let confirmStep = 0;
 let timeGimmickStart = 0;
 let timeGimmickInterval = null;
 let isMouseReverse = false;
-let fakeCursor = null;
+
+let appliedCourseCodes = new Set();
+let appliedButtons = [];
 
 const GAME_LIMIT_SECONDS = 60;
+
 
 const courses = [
     { subjectCode: "009914", classNumber: "001", department: "컴퓨터공학과", courseName: "공학설계기초", credit: "3.0/3/0", courseType: "전선", grade: "2", schedule: "금 09:00-12:00" },
@@ -97,6 +100,9 @@ startBtn.addEventListener("click", function () {
 
     courseCount = 0;
     creditCount = 0;
+
+    appliedCourseCodes.clear();
+    appliedButtons = [];
 
     selectedCourses.innerHTML = "";
     updateSummary();
@@ -207,22 +213,22 @@ function openMacroModal() {
     macroModal.style.display = "flex";
 }
 
-/* 긴 매크로: 10~20자 */
+/* 긴 매크로: 4~10자 */
 function openLongMacroModal() {
-    const length = Math.floor(Math.random() * 11) + 10;
+    const length = Math.floor(Math.random() * 7) + 4;
 
     currentMacroCode = makeRandomCode(length);
     macroNumber.textContent = currentMacroCode;
 
-    if (length <= 12) {
-        macroNumber.style.fontSize = "48px";
-        macroNumber.style.letterSpacing = "6px";
-    } else if (length <= 16) {
-        macroNumber.style.fontSize = "38px";
-        macroNumber.style.letterSpacing = "4px";
+    if (length <= 6) {
+        macroNumber.style.fontSize = "88px";
+        macroNumber.style.letterSpacing = "16px";
+    } else if (length <= 8) {
+        macroNumber.style.fontSize = "68px";
+        macroNumber.style.letterSpacing = "10px";
     } else {
-        macroNumber.style.fontSize = "30px";
-        macroNumber.style.letterSpacing = "2px";
+        macroNumber.style.fontSize = "54px";
+        macroNumber.style.letterSpacing = "6px";
     }
 
     macroNumber.style.whiteSpace = "nowrap";
@@ -263,6 +269,13 @@ macroCloseBtn.addEventListener("click", closeMacroModal);
 function closeMacroModal() {
     macroModal.style.display = "none";
     resetMacroStyle();
+}
+
+function resetMacroStyle() {
+    macroNumber.style.fontSize = "118px";
+    macroNumber.style.letterSpacing = "25px";
+    macroNumber.style.whiteSpace = "normal";
+    macroNumber.style.overflow = "visible";
 }
 
 /* 3초 정확히 맞추기 */
@@ -317,11 +330,6 @@ function startMouseReverse() {
     if (isMouseReverse) return;
 
     isMouseReverse = true;
-    document.body.style.cursor = "none";
-
-    fakeCursor = document.createElement("div");
-    fakeCursor.className = "fake-cursor";
-    document.body.appendChild(fakeCursor);
 
     document.addEventListener("mousemove", reverseMouseMove);
 
@@ -331,24 +339,14 @@ function startMouseReverse() {
 }
 
 function reverseMouseMove(event) {
-    if (!fakeCursor) return;
+    const reversedX = window.innerWidth - event.clientX;
+    const reversedY = window.innerHeight - event.clientY;
 
-    const x = window.innerWidth - event.clientX;
-    const y = window.innerHeight - event.clientY;
-
-    fakeCursor.style.left = x + "px";
-    fakeCursor.style.top = y + "px";
+    window.scrollTo(reversedX * 0.01, reversedY * 0.01);
 }
 
 function endMouseReverse() {
     document.removeEventListener("mousemove", reverseMouseMove);
-    document.body.style.cursor = "default";
-
-    if (fakeCursor) {
-        fakeCursor.remove();
-        fakeCursor = null;
-    }
-
     isMouseReverse = false;
 }
 
@@ -419,7 +417,8 @@ confirmOkBtn.addEventListener("click", function () {
             confirmOkBtn.textContent = "확인";
             resetConfirmButtons();
 
-            applyCourse(selectedCourse, selectedButton);
+            applyCourse(selectedCourse, selectedButton, true);
+            markAllAppliedButtonsComplete();
 
             selectedCourse = null;
             selectedButton = null;
@@ -429,7 +428,21 @@ confirmOkBtn.addEventListener("click", function () {
     }
 });
 
-confirmCancelBtn.addEventListener("click", closeConfirmModal);
+confirmCancelBtn.addEventListener("click", function () {
+    if (confirmStep === 2) {
+        applyCourse(selectedCourse, selectedButton, false);
+
+        confirmModal.style.display = "none";
+        resetConfirmButtons();
+
+        selectedCourse = null;
+        selectedButton = null;
+        currentMacroCode = "";
+        confirmStep = 0;
+    } else {
+        closeConfirmModal();
+    }
+});
 confirmCloseBtn.addEventListener("click", closeConfirmModal);
 
 function closeConfirmModal() {
@@ -439,8 +452,15 @@ function closeConfirmModal() {
 }
 
 /* 실제 수강신청 처리 */
-function applyCourse(course, button) {
+function applyCourse(course, button, markComplete) {
     if (isGameOver) return;
+
+    if (appliedCourseCodes.has(course.subjectCode)) {
+        return;
+    }
+
+    appliedCourseCodes.add(course.subjectCode);
+    appliedButtons.push(button);
 
     courseCount++;
 
@@ -467,8 +487,10 @@ function applyCourse(course, button) {
 
     selectedCourses.appendChild(newRow);
 
-    button.disabled = true;
-    button.textContent = "완료";
+    if (markComplete) {
+        button.disabled = true;
+        button.textContent = "완료";
+    }
 
     updateSummary();
 
@@ -478,6 +500,11 @@ function applyCourse(course, button) {
         if (isGameOver) return;
 
         newRow.remove();
+
+        appliedCourseCodes.delete(course.subjectCode);
+        appliedButtons = appliedButtons.filter(function (savedButton) {
+            return savedButton !== button;
+        });
 
         courseCount--;
         creditCount -= creditValue;
@@ -490,6 +517,13 @@ function applyCourse(course, button) {
     });
 
     checkClear();
+}
+
+function markAllAppliedButtonsComplete() {
+    appliedButtons.forEach(function (button) {
+        button.disabled = true;
+        button.textContent = "완료";
+    });
 }
 
 function updateSelectedCourseNumbers() {
@@ -506,16 +540,7 @@ function updateSummary() {
 }
 
 function checkClear() {
-    const applyButtons = document.querySelectorAll(".apply-btn");
-    let completedCount = 0;
-
-    applyButtons.forEach(function (button) {
-        if (button.disabled) {
-            completedCount++;
-        }
-    });
-
-    if (completedCount === courses.length) {
+    if (appliedCourseCodes.size === courses.length) {
         gameClear();
     }
 }

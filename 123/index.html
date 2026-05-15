@@ -51,7 +51,11 @@
 
                 <div class="macro-body">
                     <div id="macroNumber" class="macro-number">0000</div>
-                    <input id="macroInput" type="text" placeholder="매크로 번호를 입력하세요">
+                    <input id="macroInput"
+                           type="text"
+                           maxlength="20"
+                           autocomplete="off"
+                           placeholder="매크로 번호를 입력하세요">
                 </div>
 `
                 <div class="macro-footer">
@@ -84,7 +88,7 @@
         <div id="timerGimmickModal" class="modal-overlay">
             <div class="time-gimmick-box">
                 <div class="time-gimmick-header">
-                    <span>시간을 5초에 정확히 맞추세요!</span>
+                    <span>시간을 3초에 정확히 맞추세요!</span>
                     <button id="timeGimmickCloseBtn">x</button>
                 </div>
 
