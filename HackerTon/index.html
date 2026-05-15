@@ -1,253 +1,197 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>첫 화면</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: '맑은 고딕', 'Malgun Gothic', sans-serif;
-      font-size: 13px;
-      background: #f0f0f0;
-      padding: 20px;
-      color: #333;
-    }
-
-    h1.page-title {
-      font-size: 15px;
-      font-weight: bold;
-      margin-bottom: 14px;
-      color: #222;
-    }
-
-    /* ─── 알림(자막) 섹션 ─── */
-    .section-alert {
-      border: 2px solid #e05c5c;
-      border-radius: 6px;
-      background: #fff;
-      margin-bottom: 16px;
-      overflow: hidden;
-    }
-
-    .section-alert .section-header {
-      background: #e05c5c;
-      color: #fff;
-      padding: 6px 12px;
-      font-weight: bold;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .section-alert .section-header .icon {
-      font-size: 14px;
-    }
-
-    .section-alert .section-body {
-      padding: 12px 14px;
-      position: relative;
-    }
-
-    .section-alert .red-dot {
-      position: absolute;
-      top: 12px;
-      right: 14px;
-      width: 10px;
-      height: 10px;
-      background: #e05c5c;
-      border-radius: 50%;
-    }
-
-    .alert-period-label {
-      font-weight: bold;
-      font-size: 12px;
-      color: #555;
-      margin-bottom: 6px;
-    }
-
-    .alert-period-box {
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      padding: 8px 10px;
-      background: #fafafa;
-      font-size: 12px;
-      color: #333;
-      line-height: 1.6;
-    }
-
-    /* ─── NEXT 버튼 ─── */
-    .btn-wrap {
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    .btn-next {
-      background: #4a7de8;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 7px 32px;
-      font-size: 13px;
-      font-weight: bold;
-      cursor: pointer;
-      letter-spacing: 1px;
-    }
-
-    .btn-next:hover {
-      background: #3a6dd8;
-    }
-
-    /* ─── 한내문 섹션 ─── */
-    .section-notice {
-      border: 2px solid #4a7de8;
-      border-radius: 6px;
-      background: #fff;
-      overflow: hidden;
-    }
-
-    .section-notice .section-header {
-      background: #4a7de8;
-      color: #fff;
-      padding: 6px 12px;
-      font-weight: bold;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .section-notice .section-header .icon {
-      font-size: 14px;
-    }
-
-    .section-notice .section-body {
-      padding: 14px 16px;
-    }
-
-    .notice-title {
-      font-weight: bold;
-      font-size: 13px;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 8px;
-      margin-bottom: 10px;
-      color: #222;
-    }
-
-    .notice-list {
-      margin-bottom: 12px;
-    }
-
-    .notice-list p {
-      font-size: 12px;
-      line-height: 1.7;
-      color: #444;
-      margin-bottom: 4px;
-    }
-
-    /* 노란 경고 박스 */
-    .warning-box {
-      background: #fffbe6;
-      border: 1px solid #f0d060;
-      border-radius: 4px;
-      padding: 10px 12px;
-      margin-bottom: 14px;
-    }
-
-    .warning-box p {
-      font-size: 12px;
-      line-height: 1.7;
-      color: #555;
-    }
-
-    .warning-box p strong {
-      font-weight: bold;
-      color: #333;
-    }
-
-    /* 보수관련 섹션 */
-    .sub-section-title {
-      font-weight: bold;
-      font-size: 12px;
-      color: #333;
-      margin-bottom: 6px;
-    }
-
-    .sub-section ol {
-      padding-left: 18px;
-    }
-
-    .sub-section ol li {
-      font-size: 12px;
-      line-height: 1.8;
-      color: #444;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>재밌는 수강신청</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1 class="page-title">첫 화면</h1>
+<div class="app">
 
-  <!-- 알림(자막) 섹션 -->
-  <div class="section-alert">
-    <div class="section-header">
-      <span class="icon">🔔</span>
-      알림(자막)
+    <header class="topbar">
+        <div class="brand">
+            <div class="circle"></div>
+            <strong>세종대학교</strong>
+        </div>
+
+        <nav class="top-menu">
+            <span>학부생학사정보 <i class="arrow-down"></i></span>
+            <span>학생서비스 <i class="arrow-down"></i></span>
+        </nav>
+
+        <div class="user-area">
+            <div class="circle small"></div>
+            <strong>000님</strong>
+            <strong>KOR <i class="arrow-down"></i></strong>
+            <div class="circle small"></div>
+        </div>
+    </header>
+
+    <div class="content">
+
+        <aside class="sidebar">
+            <div class="side-item">학적 / 졸업</div>
+            <div class="side-item">수업 / 성적</div>
+            <div class="side-item">강좌조회 및 수강신청</div>
+            <div class="side-sub">교과목조회</div>
+            <div class="side-sub active">수강신청</div>
+            <div class="side-sub">관심과목담기</div>
+            <div class="side-sub">동일과목조회</div>
+            <div class="side-sub">수강내역조회</div>
+            <div class="side-sub">성적 및 강의평가</div>
+        </aside>
+
+        <div id="macroModal" class="modal-overlay">
+            <div class="macro-box">
+                <div class="macro-header">
+                    <span>매크로 입력</span>
+                    <button id="macroCloseBtn">x</button>
+                </div>
+
+                <div class="macro-body">
+                    <div id="macroNumber" class="macro-number">0000</div>
+                    <input id="macroInput" type="text" placeholder="매크로 번호를 입력하세요">
+                </div>
+`
+                <div class="macro-footer">
+                    <button id="macroSubmitBtn">코드입력</button>
+                    <button id="macroCancelBtn">닫기</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmModal" class="modal-overlay">
+            <div class="confirm-box">
+                <div class="confirm-header">
+                    <span>ⓘ 수강신청 확인</span>
+                    <button id="confirmCloseBtn">×</button>
+                </div>
+
+                <div class="confirm-body">
+                    <div class="check-icon">✓</div>
+                    <p id="confirmMessage"></p>
+                    <p id="confirmCourseName"></p>
+                </div>
+
+                <div class="confirm-footer">
+                    <button id="confirmOkBtn">확인</button>
+                    <button id="confirmCancelBtn">취소</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="timerGimmickModal" class="modal-overlay">
+            <div class="time-gimmick-box">
+                <div class="time-gimmick-header">
+                    <span>시간을 5초에 정확히 맞추세요!</span>
+                    <button id="timeGimmickCloseBtn">x</button>
+                </div>
+
+                <div class="time-gimmick-body">
+                    <div id="timeGimmickNumber">00:00</div>
+                    <button id="timeStopBtn">정지!</button>
+                </div>
+            </div>
+        </div>
+
+        <main class="main">
+
+            <h1>수강신청</h1>
+
+            <div class="tabs">
+                <span class="active-tab">강좌조회</span>
+                <span>관심과목 담기</span>
+                <span>동일과목 조회</span>
+            </div>
+
+            <section class="search-box">
+                <select>
+                    <option>학부</option>
+                </select>
+
+                <select>
+                    <option>2026 / 1학기</option>
+                </select>
+
+                <select>
+                    <option>컴퓨터공학과</option>
+                </select>
+
+                <input type="text" placeholder="학수번호">
+
+                <button class="search-btn">검색</button>
+            </section>
+
+            <section class="section">
+                <h2><span class="dot"></span>수강 대상 교과목</h2>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>순번</th>
+                        <th>신청</th>
+                        <th>학수번호</th>
+                        <th>분반</th>
+                        <th>개설학과</th>
+                        <th>교과목명</th>
+                        <th>수업계획서</th>
+                        <th>강의언어</th>
+                        <th>학점/이론/실습</th>
+                        <th>이수</th>
+                        <th>학년</th>
+                        <th>시간표</th>
+                        <th>인원보기</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="courseTable">
+                    </tbody>
+                </table>
+
+                <p class="summary">
+                    수강 가능 학점: 15 / 신청 과목수: <span id="courseCount">0</span> / 신청 학점:
+                    <span id="creditCount">0</span>
+                </p>
+            </section>
+
+            <section class="section">
+                <h2><span class="dot"></span>수강신청 내역</h2>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>순번</th>
+                        <th>삭제</th>
+                        <th>학수번호</th>
+                        <th>분반</th>
+                        <th>개설학과</th>
+                        <th>교과목명</th>
+                        <th>수업계획서</th>
+                        <th>강의언어</th>
+                        <th>학점/이론/실습</th>
+                        <th>이수</th>
+                        <th>재수강</th>
+                        <th>시간표</th>
+                        <th>인원보기</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="selectedCourses">
+                    </tbody>
+                </table>
+            </section>
+
+            <div class="game-panel">
+                <button id="startBtn">게임 시작</button>
+                <button id="refreshBtn">재조회</button>
+                <div id="timer">00.00초</div>
+            </div>
+
+        </main>
     </div>
-    <div class="section-body">
-      <div class="red-dot"></div>
-      <div class="alert-period-label">기간안내</div>
-      <div class="alert-period-box">
-        2026년 1학기 학생-공급 경상경쟁자리(재학생용)이며 : 2026-03-04 ~ 2026-09-08 (개월 18:00:00 ~ 16:59:00)
-      </div>
-    </div>
-  </div>
+</div>
 
-  <!-- NEXT 버튼 -->
-  <div class="btn-wrap">
-    <button class="btn-next">NEXT</button>
-  </div>
-
-  <!-- 한내문 섹션 -->
-  <div class="section-notice">
-    <div class="section-header">
-      <span class="icon">ℹ️</span>
-      한내문
-    </div>
-    <div class="section-body">
-      <div class="notice-title">
-        2026-I 학기 수강신청 안내 /Guide to Course Registration for Spring, 2025
-      </div>
-
-      <div class="notice-list">
-        <p>※ 모든 수강신청 프로그램에 <strong>세탁생(비모든 학생)</strong>으로 로그인 프로그램을 찾아서 프로그램을 로그인 시키기 필요없습니다.</p>
-        <p>※ 수업 프로그램의 수강인 수 제한 현황을 꼼꼼히 확인 후 정원초과로 등록됩니다만 불필요시 정원 현황을 <u>정상적인 방법으로 수강신청을 하시기를 바랍니다.</u></p>
-      </div>
-
-      <!-- 경고 박스 -->
-      <div class="warning-box">
-        <p>Recently, a case of abnormal access (excess, proxy program, etc.) to the <strong>course registration program</strong> has been found.</p>
-        <p>We have collected related logs and <strong>strictly disciplined the students</strong>, so please register for the course in a normal way to prevent any unpleasant events from happening in the future.</p>
-      </div>
-
-      <!-- 보수관련 섹션 -->
-      <div class="sub-section">
-        <div class="sub-section-title">보수관련 및 관리시스템 이행 방법</div>
-        <ol>
-          <li>홈페이지 하단으로 공부관련에서 장점을 참조 하기</li>
-          <li>수강 신청 시 공지사항을 충분히 숙지한 후 정상적인 방법으로 등록</li>
-          <li>문제 발생 시 담당 교직원에게 즉시 문의하여 조치 요청</li>
-          <li>재학생대학교 유시스템학 부정행위에 의한다면의 학교규정에 의거하여 불이익 조치 소취</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
+<script src="game.js"></script>
 </body>
 </html>

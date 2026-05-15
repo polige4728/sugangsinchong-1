@@ -1,0 +1,627 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, "맑은 고딕", sans-serif;
+    background-color: #f4f5f8;
+    color: #111;
+}
+
+.app {
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* 상단 바 */
+.topbar {
+    height: 64px;
+    background-color: #8f0010;
+    border-bottom: 1px solid #6f000c;
+    display: flex;
+    align-items: center;
+    padding: 0 34px;
+    color: white;
+}
+
+.brand {
+    width: 190px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 20px;
+    border-right: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.circle {
+    width: 34px;
+    height: 34px;
+    background-color: #ffffff;
+    border-radius: 50%;
+}
+
+.circle.small {
+    width: 28px;
+    height: 28px;
+    background-color: #f3c0c5;
+}
+
+.top-menu {
+    display: flex;
+    gap: 36px;
+    margin-left: 28px;
+    font-size: 16px;
+}
+
+.top-menu span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.arrow-down {
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid white;
+    border-bottom: 2px solid white;
+    transform: rotate(45deg);
+    margin-top: -4px;
+}
+
+.user-area {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* 전체 내용 */
+.content {
+    display: flex;
+}
+
+/* 왼쪽 사이드바 */
+.sidebar {
+    width: 210px;
+    background-color: #b60016;
+    min-height: calc(100vh - 64px);
+    padding: 16px 14px;
+    border-right: 1px solid #8f0010;
+}
+
+.side-item,
+.side-sub {
+    position: relative;
+    padding: 12px 12px 12px 38px;
+    font-size: 14px;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.side-sub {
+    font-size: 13px;
+    margin-left: 16px;
+}
+
+.side-item::before,
+.side-sub::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 14px;
+    width: 14px;
+    height: 14px;
+    background-color: #ffccd2;
+    border-radius: 50%;
+}
+
+.side-sub.active {
+    background-color: #ffffff;
+    color: #b60016;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.side-sub.active::before {
+    background-color: #d00018;
+}
+
+/* 메인 */
+.main {
+    flex: 1;
+    width: calc(100vw - 210px);
+    min-height: calc(100vh - 64px);
+    background-color: #f4f5fa;
+    padding: 28px 30px 60px;
+}
+
+h1 {
+    font-size: 27px;
+    margin: 0 0 26px;
+}
+
+.tabs {
+    display: flex;
+    gap: 26px;
+    margin-bottom: 10px;
+    padding-left: 14px;
+    font-size: 15px;
+}
+
+.active-tab {
+    color: #d00018;
+    border-bottom: 2px solid #d00018;
+    padding-bottom: 6px;
+}
+
+/* 검색 박스 */
+.search-box {
+    width: 100%;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #ead0d3;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 26px;
+}
+
+.search-box select,
+.search-box input {
+    height: 36px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 0 14px;
+    background-color: #ffffff;
+    font-size: 15px;
+}
+
+.search-box select {
+    width: 190px;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 180px;
+}
+
+.search-btn {
+    width: 70px;
+    height: 36px;
+    border: none;
+    border-radius: 6px;
+    background-color: #d00018;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background-color: #9e0012;
+}
+
+/* 섹션 */
+.section {
+    width: 100%;
+    margin-top: 26px;
+}
+
+.section h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 23px;
+    margin: 0 0 14px;
+}
+
+.dot {
+    width: 24px;
+    height: 24px;
+    background-color: #d8d8d8;
+    border-radius: 50%;
+}
+
+/* 테이블 */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+th {
+    background-color: #303030;
+    color: #ffffff;
+    padding: 10px 6px;
+    border-right: 1px solid #555555;
+    font-weight: bold;
+}
+
+td {
+    height: 34px;
+    padding: 7px 6px;
+    text-align: center;
+    border-right: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+}
+
+tbody tr:hover {
+    background-color: #fff3f5;
+}
+
+/* 버튼 */
+.apply-btn,
+.delete-btn,
+.mini-btn {
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.apply-btn {
+    background-color: #d00018;
+    padding: 4px 7px;
+}
+
+.apply-btn:hover {
+    background-color: #9e0012;
+}
+
+.apply-btn:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+.delete-btn {
+    background-color: #b80015;
+    padding: 4px 7px;
+}
+
+.mini-btn {
+    background-color: #e3394b;
+    padding: 4px 7px;
+}
+
+.summary {
+    margin: 10px 0 0 10px;
+    font-size: 13px;
+    color: #333;
+}
+
+.summary::before {
+    content: "";
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    margin-right: 8px;
+    background-color: #d8d8d8;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+/* 하단 게임 패널 */
+.game-panel {
+    width: 100%;
+    margin-top: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+}
+
+#startBtn,
+#refreshBtn {
+    height: 42px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 8px;
+    background-color: #d00018;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#refreshBtn {
+    background-color: #7d000d;
+}
+
+#startBtn:hover,
+#refreshBtn:hover {
+    background-color: #9e0012;
+}
+
+#timer {
+    font-size: 28px;
+    font-weight: bold;
+    color: #b60016;
+}
+
+/* 공통 모달 배경 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.25);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* 매크로 입력 모달 */
+.macro-box {
+    width: 580px;
+    background: white;
+    border: 2px solid #111;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.macro-header {
+    height: 54px;
+    background: #303030;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 18px;
+    font-size: 28px;
+}
+
+#macroCloseBtn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.macro-body {
+    padding: 16px 32px 14px;
+}
+
+.macro-number {
+    height: 158px;
+    border: 1px solid #777;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 118px;
+    letter-spacing: 25px;
+    margin-bottom: 14px;
+}
+
+#macroInput {
+    width: 100%;
+    height: 36px;
+    border: 1px solid #555;
+    padding: 0 14px;
+    font-size: 15px;
+}
+
+.macro-footer {
+    height: 48px;
+    background: #d00000;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 24px;
+    padding: 0 20px;
+}
+
+.macro-footer button {
+    background: #ffd400;
+    border: 1px solid #111;
+    border-radius: 8px;
+    padding: 8px 22px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* 수강신청 확인 모달 */
+.confirm-box {
+    width: 560px;
+    height: 430px;
+    background: #fffdf5;
+    border: 2px solid #c8757c;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 0 8px rgba(208, 0, 24, 0.18);
+}
+
+.confirm-header {
+    height: 36px;
+    margin: 12px 14px 0;
+    background: linear-gradient(90deg, #c90014, #8f0010);
+    color: white;
+    border-radius: 5px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 17px;
+}
+
+#confirmCloseBtn {
+    background: none;
+    border: none;
+    color: #3a0005;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.confirm-body {
+    height: 300px;
+    margin: 10px 16px;
+    border: 1px solid #d8aaa9;
+    border-radius: 4px;
+    background: #fffdf2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 26px 34px;
+    font-size: 16px;
+    line-height: 1.8;
+    overflow-y: auto;
+}
+
+.check-icon {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+    margin-bottom: 22px;
+    border-radius: 50%;
+    background: #7470a8;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.confirm-body p {
+    margin: 0;
+}
+
+#confirmMessage {
+    width: 100%;
+    font-size: 16px;
+    color: #222;
+    word-break: keep-all;
+}
+
+#confirmCourseName {
+    margin-top: 18px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #111;
+}
+
+.confirm-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 0 42px;
+}
+
+#confirmOkBtn,
+#confirmCancelBtn {
+    width: 78px;
+    height: 40px;
+    border-radius: 6px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+#confirmOkBtn {
+    background: #a80013;
+    color: white;
+    border: none;
+}
+
+#confirmCancelBtn {
+    background: white;
+    color: #5a0010;
+    border: 1px solid #7a0010;
+}
+
+/* 5초 맞추기 기믹 */
+.time-gimmick-box {
+    width: 520px;
+    background: white;
+    border: 2px solid #111;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.time-gimmick-header {
+    height: 48px;
+    background: #303030;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    font-size: 22px;
+}
+
+#timeGimmickCloseBtn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.time-gimmick-body {
+    padding: 16px 52px 28px;
+    text-align: center;
+}
+
+#timeGimmickNumber {
+    height: 140px;
+    border: 1px solid #777;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 96px;
+    margin-bottom: 12px;
+}
+
+#timeStopBtn {
+    background: #777;
+    color: white;
+    border: 1px solid #222;
+    border-radius: 7px;
+    padding: 10px 26px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.time-gimmick-footer {
+    height: 48px;
+    background: #d00000;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 24px;
+    padding: 0 18px;
+}
+
+.time-gimmick-footer button {
+    background: #ffd400;
+    border: 1px solid #111;
+    border-radius: 8px;
+    padding: 8px 22px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* 화면 반전 */
+.screen-invert {
+    transform: rotate(180deg);
+}
+
+/* 마우스 반전용 가짜 커서 */
+.fake-cursor {
+    position: fixed;
+    width: 18px;
+    height: 18px;
+    background: #d00018;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+}
