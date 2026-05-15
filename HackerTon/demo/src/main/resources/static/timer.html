@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수강신청</title>
+    <style>
+        /* 전체 레이아웃: 세로 중앙 정렬 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background: #f0f4f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            gap: 24px;
+        }
+
+        h1 { font-size: 28px; color: #1a237e; }
+
+        /* 현재 시각을 보여주는 시계 박스 */
+        .clock-box {
+            background: #1a237e;
+            color: #fff;
+            padding: 24px 48px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .clock-label { font-size: 14px; opacity: 0.7; margin-bottom: 6px; }
+
+        /* 시각 숫자: 고정폭 폰트로 숫자 흔들림 방지 */
+        #clock {
+            font-size: 52px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* 10:00까지 남은 시간 표시 영역 */
+        .countdown-box { font-size: 18px; color: #555; }
+        #countdown { color: #c62828; font-weight: bold; }
+
+        /* 수강신청 버튼 */
+        #enroll-btn {
+            padding: 18px 64px;
+            font-size: 22px;
+            font-weight: bold;
+            background: #1565c0;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #enroll-btn:hover { background: #0d47a1; }
+
+        /* ── 수강신청 불가 모달 ── */
+        /* display: flex로 전환되어 화면 중앙에 표시됨 */
+        #modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal-box {
+            background: white;
+            border-radius: 16px;
+            padding: 40px 48px;
+            text-align: center;
+            max-width: 360px;
+            width: 90%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .modal-icon { font-size: 48px; margin-bottom: 12px; }
+
+        .modal-box h2 { font-size: 22px; color: #c62828; margin-bottom: 10px; }
+
+        .modal-box p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .modal-box button {
+            padding: 10px 32px;
+            background: #1565c0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .modal-box button:hover { background: #0d47a1; }
+    </style>
+</head>
+<body>
+
+    <h1>수강신청 시스템</h1>
+
+    <!-- 현재 시각 표시 (서버 시각 기준으로 동기화) -->
+    <div class="clock-box">
+        <div class="clock-label">현재 시간 (서버 기준)</div>
+        <div id="clock">--:--:--</div>
+    </div>
+
+    <!-- 수강신청 시작까지 남은 시간 -->
+    <div class="countdown-box">
+        수강신청 시작(10:00:00)까지&nbsp;
+        <span id="countdown">계산 중...</span>
+    </div>
+
+    <!-- 수강신청 버튼: 클릭 시 서버에 시간 체크 요청 -->
+    <button id="enroll-btn" onclick="tryEnroll()">수강신청</button>
+
+    <!-- 수강신청 불가 모달: 10:00 이전에 버튼을 누르면 표시됨 -->
+    <div id="modal">
+        <div class="modal-box">
+            <div class="modal-icon">🚫</div>
+            <h2>수강신청 불가</h2>
+            <p>
+                아직 수강신청 시작 시간이 아닙니다.<br>
+                <strong>10시 00분 00초</strong> 이후에 다시 시도해 주세요.
+            </p>
+            <!-- 모달 안에 서버 현재 시각을 함께 표시 -->
+            <p id="modal-time" style="font-size:13px; color:#999; margin-bottom:16px;"></p>
+            <button onclick="closeModal()">확인</button>
+        </div>
+    </div>
+
+    <script>
+        // 수강신청이 열리는 기준 시각 (10:00:00)
+        const OPEN_HOUR = 10;
+        const OPEN_MIN  = 0;
+        const OPEN_SEC  = 0;
+
+        // 서버에서 받아온 현재 시각을 초 단위로 저장
+        // (클라이언트에서 1초씩 증가시켜 시계처럼 동작)
+        let serverSeconds = null;
+
+        // 페이지 로드 시 서버에서 현재 시각을 가져와 타이머를 시작한다.
+        // 이후 1초마다 serverSeconds를 1씩 증가시켜 시계를 유지한다.
+        async function fetchServerTime() {
+            try {
+                const res  = await fetch('/api/time/check');
+                const data = await res.json();
+
+                // "HH:mm:ss" 형식의 문자열을 초 단위 정수로 변환
+                const parts = data.currentTime.split(':');
+                serverSeconds = parseInt(parts[0]) * 3600
+                              + parseInt(parts[1]) * 60
+                              + parseInt(parts[2]);
+
+                // 초기 화면 갱신 후 1초 간격으로 반복
+                updateDisplay();
+                setInterval(() => {
+                    serverSeconds++;
+                    updateDisplay();
+                }, 1000);
+            } catch (e) {
+                document.getElementById('clock').innerText = '서버 오류';
+            }
+        }
+
+        // 현재 serverSeconds를 바탕으로 시계와 카운트다운을 갱신한다.
+        function updateDisplay() {
+            const h = Math.floor(serverSeconds / 3600) % 24;
+            const m = Math.floor((serverSeconds % 3600) / 60);
+            const s = serverSeconds % 60;
+
+            // 시계 텍스트 갱신 (HH:MM:SS 형식)
+            document.getElementById('clock').innerText =
+                pad(h) + ':' + pad(m) + ':' + pad(s);
+
+            // 오픈 시각까지 남은 초 계산
+            const openSec = OPEN_HOUR * 3600 + OPEN_MIN * 60 + OPEN_SEC;
+            const diff = openSec - serverSeconds;
+
+            if (diff > 0) {
+                // 아직 10:00 이전 → 남은 시간 표시
+                const dm = Math.floor(diff / 60);
+                const ds = diff % 60;
+                document.getElementById('countdown').innerText =
+                    dm + '분 ' + ds + '초 남음';
+            } else {
+                // 10:00 이후 → 수강신청 가능 메시지로 교체
+                document.getElementById('countdown').innerText = '수강신청 가능합니다!';
+                document.getElementById('countdown').style.color = '#2e7d32';
+            }
+        }
+
+        // 숫자를 2자리 문자열로 변환 (예: 9 → "09")
+        function pad(n) { return String(n).padStart(2, '0'); }
+
+        // 수강신청 버튼 클릭 핸들러
+        // 서버에 시간을 다시 확인하여 클라이언트 조작을 방지한다.
+        async function tryEnroll() {
+            try {
+                const res  = await fetch('/api/time/check');
+                const data = await res.json();
+
+                if (data.isOpen) {
+                    // 10:00:00 이후 → 수강신청 사이트로 이동
+                    // ※ 아래 URL을 실제 수강신청 사이트 주소로 변경할 것
+                    window.location.href = 'https://여기에_수강신청_URL_입력.com';
+                } else {
+                    // 10:00:00 이전 → 불가 모달 표시
+                    document.getElementById('modal-time').innerText =
+                        '현재 서버 시간: ' + data.currentTime;
+                    document.getElementById('modal').style.display = 'flex';
+                }
+            } catch (e) {
+                alert('서버 연결 오류가 발생했습니다.');
+            }
+        }
+
+        // 모달 닫기
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // 페이지 로드 즉시 서버 시각 동기화 시작
+        fetchServerTime();
+    </script>
+</body>
+</html>

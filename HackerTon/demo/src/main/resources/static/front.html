@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>수강신청 타임어택</title>
+    <style>
+        .timer { font-size: 24px; color: red; font-weight: bold; }
+        .subject-btn { padding: 10px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🔥 수강신청 타임어택!</h1>
+    <div class="timer">남은 시간: <span id="time-display">30</span>초</div>
+    <button onclick="startGame()">게임 시작</button>
+
+    <div id="subject-list" style="display:none; margin-top: 20px;">
+        <button class="subject-btn" onclick="enroll('알고리즘')">알고리즘</button>
+        <button class="subject-btn" onclick="enroll('운영체제')">운영체제</button>
+        <button class="subject-btn" onclick="enroll('데이터베이스')">데이터베이스</button>
+        <button class="subject-btn" onclick="enroll('컴퓨터구조') ">컴퓨터구조</button>
+        <button class="subject-btn" onclick="enroll('네트워크')">네트워크</button>
+    </div>
+
+    <p id="message"></p>
+
+    <script>
+        let timeLeft = 30;
+        let timerInterval;
+
+        async function startGame() {
+            const response = await fetch('/api/game/start', { method: 'POST' });
+            document.getElementById('subject-list').style.display = 'block';
+            document.getElementById('message').innerText = await response.text();
+            
+            // 타이머 시작
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('time-display').innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("게임 오버!");
+                    location.reload(); // 페이지 새로고침
+                }
+            }, 1000);
+        }
+
+        async function enroll(name) {
+            const response = await fetch('/api/game/enroll', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ subjectName: name })
+            });
+
+            const result = await response.text();
+            document.getElementById('message').innerText = result;
+
+            if (result.includes("ALL CLEAR")) {
+                clearInterval(timerInterval);
+                alert("축하합니다! 수강신청에 성공했습니다.");
+            }
+        }
+    </script>
+</body>
+</html>
